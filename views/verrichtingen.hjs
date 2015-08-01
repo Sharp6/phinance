@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<script src="/libraries/require.min.js" data-main="/javascripts/verrichtingenMain.js"></script>
+		
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+
+	</head>
+
+	<body>
+		<div class="container">
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Datum</th>
+						<th>Bedrag</th>
+						<th>Bank</th>
+						<th>Info</th>
+					</tr>
+				</thead>
+
+				<tbody data-bind="foreach:verrichtingen">
+					<td>
+						<span data-bind="text:datum"></span>
+					</td>	
+					<td>
+						<span data-bind="text:bedrag"></span>
+					</td>
+					<td>
+						<span data-bind="text:bank"></span>
+					</td>
+					<td>
+						<span data-bind="text:info"></span>
+					</td>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
