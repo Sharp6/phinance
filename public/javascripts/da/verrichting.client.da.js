@@ -2,13 +2,22 @@ define(['jquery'], function($){
 	"use strict";
 	
 	var loadVerrichtingServer = function() {
-		// FIX THIS ... 
+		// FIX THIS to work without JQuery... 
 		return $.getJSON("/api/verrichtingen").promise();
+	};
+
+	var loadWithFilter = function(query) {
+		return $.ajax({
+		  dataType: "json",
+		  url: "/api/verrichtingen",
+		  data: query
+		}).promise();
 	};
 	
 	return {
 		//save : saveIngredientServer,
-		load : loadVerrichtingServer
+		load : loadVerrichtingServer,
+		loadWithFilter : loadWithFilter
 		//remove: removeIngredientServer
 	};
 });

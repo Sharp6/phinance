@@ -3,13 +3,19 @@ TODO
 General:
 -------------------------------
  - Create a front end
-  - make an express site
-  - make a REST service for verrichtingen
-  - make a knockout/bootstrap SPA for viewing verrichtingen
-
+  - make a knockout/bootstrap SPA for viewing verrichtingen, with the ability to filter on:
+   - beginDate
+   - endDate
+   - bank
+   - category
+   - status
+ - Specify the state machine for statuses
+  - imported
+  - duplicate / notDuplicate
+  - classified
 
 fileHandler: 
 -------------------------------
- - Fix dates
  - Promisify csv reader.
+ - Refactor
  - Add package.json for dependencies

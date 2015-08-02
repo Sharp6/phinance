@@ -10,6 +10,25 @@
 	<body>
 		<div class="container">
 
+			<form>
+				<div class="form-group">
+					<label for="beginDatum">Begindatum</label>
+					<input type="text" class="form-control" id="beginDatum" placeHolder="dd/mm/yyyy" data-bind="value: beginDatum" />
+				</div>
+				<div class="form-group">
+					<label for="eindDatum">Einddatum</label>
+					<input type="text" class="form-control" id="eindDatum" placeHolder="dd/mm/yyyy" data-bind="value:eindDatum" />
+				</div>
+
+				<div class="form-group">
+					<label for="bankSelect">Bank</label>
+					<select class="form-control" data-bind="options:banken, optionsCaption: 'Selecteer een bank', value: bankFilter">
+					</select>
+				</div>
+
+				<button type="button" class="btn btn-default" data-bind="click:filterVerrichtingen">Filter</button>	
+			</form>
+
 			<table class="table">
 				<thead>
 					<tr>
