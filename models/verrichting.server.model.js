@@ -9,9 +9,10 @@ var verrichtingSchema = new Schema({
 	rekeningTegenpartij: String,
 	status: String,
 	categorie: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Categorie'
-	}
+	},
+	guessedCategorie: String
 });
 
 module.exports = mongoose.model('Verrichting', verrichtingSchema);

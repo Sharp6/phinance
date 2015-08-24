@@ -13,9 +13,19 @@ define(['jquery'], function($){
 		  data: query
 		}).promise();
 	};
+
+	var saveVerrichtingToServer = function(id,data) {
+		console.log(id);
+		return $.ajax({
+			//dataType: "json",
+			url: "/api/verrichtingen/" + id,
+			data: {verrichting: data},
+			method: "PUT"
+		}).promise();
+	};
 	
 	return {
-		//save : saveIngredientServer,
+		save : saveVerrichtingToServer,
 		load : loadVerrichtingServer,
 		loadWithFilter : loadWithFilter
 		//remove: removeIngredientServer

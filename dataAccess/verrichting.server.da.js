@@ -21,28 +21,110 @@ exports.saveVerrichting = function(verrichtingData) {
 	});
 }
 
+exports.updateVerrichting = function(verrichtingData) {
+	return new Promise(function(resolve,reject) {
+		Verrichting.findByIdAndUpdate(
+			verrichtingData.databaseId, 
+			{$set: {
+				'categorie': verrichtingData.categorieId,
+				'status': 'categorized'
+			}}, 
+			function(err,updatedVerrichting) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(updatedVerrichting);
+				}
+			}
+		);
+	});
+};
+
+exports.addCategorizationGuess = function(verrichtingData) {
+	return new Promise(function(resolve,reject) {
+		Verrichting.findByIdAndUpdate(
+			verrichtingData.databaseId, 
+			{$set: {
+				'guessedCategorie': verrichtingData.guessedCategorie
+			}}, 
+			function(err,updatedVerrichting) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(updatedVerrichting);
+				}
+			}
+		);
+	});
+}
+
 exports.getVerrichtingen = function(queryParams) {
 	return new Promise(function(resolve,reject) {
 		var queryCriteria = [];
-		queryCriteria.push({datum: {$gt:queryParams.beginDatum}});
-		queryCriteria.push({datum: {$lt:queryParams.eindDatum}});
-		console.log(queryParams.bank);
+		var options = {};
+		if(queryParams.beginDatum && queryParams.beginDatum !== "undefined") {
+			queryCriteria.push({datum: {$gt:queryParams.beginDatum}});	
+		}
+		if(queryParams.eindDatum && queryParams.eindDatum !== "undefined") {
+			queryCriteria.push({datum: {$lt:queryParams.eindDatum}});
+		}
 		if(queryParams.bank && queryParams.bank !== "undefined") {
-			console.log("add QC based on bank " + queryParams.bank);
 			queryCriteria.push({bank: {$eq:queryParams.bank}});
+		}
+		if(queryParams.status && queryParams.status !== "undefined") {
+			queryCriteria.push({status: {$eq:queryParams.status}});
+		}
+		if(queryParams.categorieId && queryParams.categorieId !== "undefined") {
+			queryCriteria.push({categorie: queryParams.categorieId});
+		}
+
+		var queryObject = {};
+		if(queryCriteria.length > 0) {
+			queryObject.$and = queryCriteria;
 		}
 		
 		var query = Verrichting
-			.find({$and: queryCriteria})
-			//.find({$and: [{datum: {$gt:queryParams.beginDatum}},{datum: {$lt:queryParams.eindDatum}}]})
+			.find(queryObject)
+
+
+		if(queryParams.limit && queryParams.limit !== "undefined") {
+			query = query.limit(queryParams.limit);
+		}
+		if(queryParams.skip && queryParams.skip !== "undefined") {
+			query = query.skip(queryParams.skip);
+		}
+
+		query = query
+			.populate('categorie')
 			.sort({datum: 'desc'});
 
 		query.exec(function(err,results) {
 			if(err) {
 				reject(err);
 			} else {
-				resolve(results);	
+				Verrichting.count(queryObject, function(err, count) {
+					if(err) {
+						reject(err);
+					} else {
+						var response = {};
+						response.results = results;
+						response.count = count;
+						resolve(response);	
+					}
+				});
 			}
 		});
 	});
 } 
+
+exports.getVerrichting = function(id) {
+	return new Promise(function(resolve,reject) {
+		Verrichting.findById(id, function(err,result) {
+			if(err) {
+				reject(err);
+			} else {
+				resolve(result);
+			}
+		});
+	});
+};

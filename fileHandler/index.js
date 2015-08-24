@@ -31,8 +31,8 @@ function executeHandling(filename) {
 		.then(processFile)
 		.then(mapDataFields)
 		.then(prepareDataFields)
-		.then(persistVerrichtingen);
-		//.then(logCommand);
+		.then(persistVerrichtingen)
+		.then(logCommand);
 }
 
 function alreadyImported(filename) {
@@ -45,6 +45,27 @@ function alreadyImported(filename) {
 					resolve(false);
 				}
 		});
+	});
+}
+
+function determineBank(fileToParse) {
+	return new Promise(function(resolve,reject) {
+		var bank;
+		if(fileToParse.filename.indexOf("belfius") !== -1) {
+			bank = "belfius";
+		} else if(fileToParse.filename.indexOf("argenta") !== -1) {
+			bank = "argenta";
+		} else if(fileToParse.filename.indexOf("kbc") !== -1) {
+			bank = "kbc";
+		}
+
+		if(bank) {
+			fileToParse.bank = bank;
+			console.log("Bank determined to be " + fileToParse.bank + ".");
+			resolve(fileToParse);
+		} else {
+			reject("No known bank");
+		}
 	});
 }
 
@@ -131,21 +152,6 @@ function prepareBelfiusFile(fileToParse) {
 			});
 		} else {
 			resolve(fileToParse);
-		}
-	});
-}
-
-function determineBank(fileToParse) {
-	return new Promise(function(resolve,reject) {
-		var bankDotSplit = fileToParse.filename.split('.');
-		var finalPart = bankDotSplit[bankDotSplit.length - 2];
-		var bank = finalPart.split('/')[2];
-		if(bank === "belfius" || bank === "argenta" || bank === "kbc") {
-			fileToParse.bank = bank;
-			console.log("Bank determined to be " + fileToParse.bank + ".");
-			resolve(fileToParse);	
-		} else {
-			reject("No known bank");
 		}
 	});
 }
