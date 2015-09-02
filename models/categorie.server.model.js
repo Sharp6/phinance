@@ -6,7 +6,8 @@ var categorieSchema = new Schema({
 	parent: {
 		type: Schema.Types.ObjectId,
 		ref: 'Categorie'
-	}
+	},
+	indicatorStrings: [ String ]
 });
 
 module.exports = mongoose.model('Categorie', categorieSchema);

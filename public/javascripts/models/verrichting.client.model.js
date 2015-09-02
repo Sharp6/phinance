@@ -11,7 +11,8 @@ define(['knockout', 'moment', 'da/verrichting.client.da'], function(ko, moment, 
 		self.info = ko.observable(data.info);
 		self.status = ko.observable(data.status);
 		self.databaseId = ko.observable(data._id);
-		self.guessedCategorie = ko.observable(data.guessedCategorie);
+		self.categorieGuessedByMachine = ko.observable(data.categorieGuessedByMachine);
+		self.categorieGuessedByBusinessRule = ko.observable(data.categorieGuessedByBusinessRule);
 
 		self.saveEnabled = ko.computed(function() {
 			return self.status() === "notDuplicate" || self.status() === "categorized";
@@ -19,20 +20,27 @@ define(['knockout', 'moment', 'da/verrichting.client.da'], function(ko, moment, 
 
 		self.categorie = ko.observable();
 		if(data.categorie) {
-			self.categorie(data.categorie.naam);	
+			self.categorie(data.categorie.naam);
 		} else {
 			//self.categorie("Geen categorie");
 		}
 
 		self.save = function() {
 			verrichtingDA.save(self.databaseId(),ko.toJSON(self));
-		}
+		};
 
 		self.notify = function() {
 			console.log(ko.toJSON(self));
 		};
-	};
 
+		self.accepteerCategorieGuessedByBusinessRule = function() {
+			self.categorie(self.categorieGuessedByBusinessRule());
+		};
+
+		self.accepteerCategorieGuessedByMachine = function() {
+			self.categorie(self.categorieGuessedByMachine());
+		};
+	};
 	
 	return verrichtingModel;
 });

@@ -43,4 +43,12 @@ require(["jquery", "hotkeys", "knockout", "bootstrap", "typeahead", "binding-typ
 			$(document).bind('keydown', 'alt+ctrl+s', function() {
 				verrichtingenVm.selectedVerrichting().save();
 			});
+
+			$(document).bind('keydown', 'alt+ctrl+b', function() {
+				verrichtingenVm.selectedVerrichting().accepteerCategorieGuessedByBusinessRule();
+			});
+
+			$(document).bind('keydown', 'alt+ctrl+m', function() {
+				verrichtingenVm.selectedVerrichting().accepteerCategorieGuessedByMachine();
+			});
 		});

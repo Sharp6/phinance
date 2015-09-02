@@ -13,6 +13,7 @@ define(['knockout', 'models/verrichting.client.model', 'da/verrichting.client.da
 		self.eindDatum = ko.observable('');
 		self.limitFilter = ko.observable('');
 		self.skipFilter = ko.observable('');
+		self.businessRuleClassificationFilter = ko.observable(false);
 
 		self.selectedVerrichting = ko.observable();
 		self.selectedVerrichtingIndex = ko.computed(function() {
@@ -71,7 +72,8 @@ define(['knockout', 'models/verrichting.client.model', 'da/verrichting.client.da
 				status: self.statusFilter,
 				categorie: self.categorieFilter,
 				skip: self.skipFilter,
-				limit: self.limitFilter
+				limit: self.limitFilter,
+				businessRuleClassification: self.businessRuleClassificationFilter
 			};
 			verrichtingDA.loadWithFilter(query)
 				.then(function(response) {

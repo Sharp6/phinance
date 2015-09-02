@@ -40,12 +40,33 @@ exports.updateVerrichting = function(verrichtingData) {
 	});
 };
 
-exports.addCategorizationGuess = function(verrichtingData) {
+
+// THESE TWO FUNCTIONS SHOULD BE REFACTORED, COPY PASTED!!
+exports.addCategorizationGuessByMachine = function(verrichtingData) {
 	return new Promise(function(resolve,reject) {
 		Verrichting.findByIdAndUpdate(
 			verrichtingData.databaseId, 
 			{$set: {
-				'guessedCategorie': verrichtingData.guessedCategorie
+				'categorieGuessedByMachine': verrichtingData.guessedCategorie
+			}}, 
+			function(err,updatedVerrichting) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(updatedVerrichting);
+				}
+			}
+		);
+	});
+}
+
+// COPY PASTED THIS FUNCTION FROM ABOVE
+exports.addCategorizationGuessByBusinessRule = function(verrichtingData) {
+	return new Promise(function(resolve,reject) {
+		Verrichting.findByIdAndUpdate(
+			verrichtingData.databaseId, 
+			{$set: {
+				'categorieGuessedByBusinessRule': verrichtingData.guessedCategorie
 			}}, 
 			function(err,updatedVerrichting) {
 				if(err) {
@@ -77,6 +98,9 @@ exports.getVerrichtingen = function(queryParams) {
 		if(queryParams.categorieId && queryParams.categorieId !== "undefined") {
 			queryCriteria.push({categorie: queryParams.categorieId});
 		}
+		if(queryParams.businessRuleClassification && queryParams.businessRuleClassification !== "false") {
+			queryCriteria.push({categorieGuessedByBusinessRule: {$exists:true} });
+		}
 
 		var queryObject = {};
 		if(queryCriteria.length > 0) {
@@ -85,7 +109,6 @@ exports.getVerrichtingen = function(queryParams) {
 		
 		var query = Verrichting
 			.find(queryObject)
-
 
 		if(queryParams.limit && queryParams.limit !== "undefined") {
 			query = query.limit(queryParams.limit);

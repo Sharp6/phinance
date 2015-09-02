@@ -12,6 +12,16 @@ define(['knockout', "jquery"], function(ko, $) {
 			});
 		}
 
+		self.doClassify = function() {
+			$.ajax({
+				dataType: "json",
+				url: "/classify"
+			}).promise()
+			.then(function(jsonResponse) {
+				$("#serverResponse").html(jsonResponse);
+			});	
+		}
+
 		self.init = function() {
 			return;
 		};

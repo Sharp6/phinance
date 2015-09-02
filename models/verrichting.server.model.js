@@ -12,7 +12,8 @@ var verrichtingSchema = new Schema({
 		type: String,
 		ref: 'Categorie'
 	},
-	guessedCategorie: String
+	categorieGuessedByMachine: String,
+	categorieGuessedByBusinessRule: String
 });
 
 module.exports = mongoose.model('Verrichting', verrichtingSchema);

@@ -18,7 +18,8 @@ exports.getVerrichtingen = function(req,res) {
 				status: req.query.status, 
 				categorieId: categorieId,
 				limit: req.query.limit,
-				skip: req.query.skip
+				skip: req.query.skip,
+				businessRuleClassification: req.query.businessRuleClassification
 			});		
 		})
 		.then(function(response) {

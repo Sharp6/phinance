@@ -54,6 +54,10 @@
 						<input type="text" class="form-control" id="skipFilter" placeHolder="aantal verrichtingen skippen" data-bind="value:skipFilter" />
 					</div>
 
+					<div class="form-group">
+						<label>Classificatie door business rule: <input type="checkbox" id="businessRuleClassificationFilter" data-bind="checked:businessRuleClassificationFilter" /></label>
+					</div>
+
 					<button type="button" class="btn btn-default" data-bind="click:filterVerrichtingen">Filter</button>	
 				</form>
 
@@ -93,7 +97,7 @@
 								<span data-bind="text:categorie"></span>
 							</td>
 							<td>
-								<span data-bind="text:guessedCategorie"></span>
+								<span data-bind="text:categorieGuessedByMachine"></span>
 							</td>
 							<td>
 								<button type="button" class="btn btn-default" data-bind="click:$parent.selectedVerrichting">Detail</button>
@@ -114,6 +118,8 @@
 				<ul>
 					<li><span data-bind="text:datum"></span></li>
 					<li><span data-bind="text:info"></span></li>
+					<li data-bind="visible:categorieGuessedByBusinessRule">Business rule classification: <span data-bind="text:categorieGuessedByBusinessRule"></span><button class="btn btn-default" data-bind="click:accepteerCategorieGuessedByBusinessRule">Take this</button></li>
+					<li data-bind="visible:categorieGuessedByMachine">Machine classification: <span data-bind="text:categorieGuessedByMachine"></span><button class="btn btn-default" data-bind="click:accepteerCategorieGuessedByMachine">Take this</button></li>
 				</ul>
 
 				<form data-bind="visible:saveEnabled">
@@ -126,8 +132,7 @@
 					<div class="form-group">
 						<label for="verrichtingCategorieText">Categorie</label>
 						<input type="text" id="verrichtingCategorieText" class="form-control" 
-						data-bind="typeahead: $parent.categorieen, value: categorie"
-						>
+						data-bind="typeahead: $parent.categorieen, value: categorie">
 					</div>
 					
 				</form>

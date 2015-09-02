@@ -15,7 +15,7 @@ define(['jquery'], function($){
 	};
 
 	var saveVerrichtingToServer = function(id,data) {
-		console.log(id);
+		console.log(data);
 		return $.ajax({
 			//dataType: "json",
 			url: "/api/verrichtingen/" + id,

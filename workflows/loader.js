@@ -4,7 +4,7 @@ var categorizer = require('../categorizer');
 var classifier = require('../classifier');
 
 exports.load = function() {
-	return filesCollector.loadFiles
+	return filesCollector.loadFiles()
 		.then(processListOfFiles)
 		.then(categorizer.checkForDuplicates)
 		.then(classifier.classify);

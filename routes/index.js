@@ -34,15 +34,13 @@ router.get('/commandCenter', function(req,res) {
 
 /* Workflow functionality */
 router.get('/workflowLoad', function(req,res) {
-	/*workflowLoad.load()
+	workflowLoad.load()
 		.then(function() {
 			res.json("ok");
 		})
 		.catch(function(err) {
 			res.json("ERROR: " + err); 
 		});
-*/
-	res.json("ok");
 });
 
 /* Raw functionality */
@@ -69,7 +67,7 @@ router.get('/checkForDuplicates', function(req,res) {
 router.get('/classify', function(req,res) {
 	classifier.classify()
 		.then(function() {
-			res.json("Check node output");
+			res.json("Classification complete.");
 		})
 		.catch(function(err) {
 			res.json(err);
